@@ -5,22 +5,8 @@ namespace App\Models {
     /**
      * App\Models\Bonus
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property int|null $source_id
-     * @property float $amount
-     * @property string $type
-     * @property int $user_id
-     * @property int $id
      * @property-read \App\Models\User $user
      * @property-read \App\Models\User $source
-     * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus whereType($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus whereAmount($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus whereSourceId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Bonus>|Bonus query()
@@ -319,22 +305,8 @@ namespace App\Models {
     /**
      * App\Models\Genealogy
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property string|null $level
-     * @property string $position
-     * @property int|null $parent_id
-     * @property int $user_id
-     * @property int $id
      * @property-read \App\Models\User $user
      * @property-read \App\Models\User $parent
-     * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy whereParentId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy wherePosition($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy whereLevel($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Genealogy>|Genealogy query()
@@ -633,21 +605,9 @@ namespace App\Models {
     /**
      * App\Models\Order
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property string $status
-     * @property float $total
-     * @property int $user_id
-     * @property int $id
      * @property-read \App\Models\User $user
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
      * @property-read int|null $items_count
-     * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order whereTotal($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order whereStatus($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Order>|Order query()
@@ -946,22 +906,8 @@ namespace App\Models {
     /**
      * App\Models\OrderItem
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property float $price
-     * @property int $qty
-     * @property int $product_id
-     * @property int $order_id
-     * @property int $id
      * @property-read \App\Models\Order $order
      * @property-read \App\Models\Product $product
-     * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem whereOrderId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem whereProductId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem whereQty($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem wherePrice($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<OrderItem>|OrderItem query()
@@ -1260,24 +1206,8 @@ namespace App\Models {
     /**
      * App\Models\Package
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property string|null $bonuses_json
-     * @property string|null $eligible_roles
-     * @property int $pv
-     * @property float $price
-     * @property string $name
-     * @property int $id
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
      * @property-read int|null $users_count
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package whereName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package wherePrice($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package wherePv($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package whereEligibleRoles($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package whereBonusesJson($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Package>|Package query()
@@ -1576,26 +1506,8 @@ namespace App\Models {
     /**
      * App\Models\Product
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property string|null $image
-     * @property float $price
-     * @property string|null $benefits
-     * @property string|null $ingredients
-     * @property string|null $description
-     * @property string $name
-     * @property int $id
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $stockists
      * @property-read int|null $stockists_count
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereDescription($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereIngredients($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereBenefits($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product wherePrice($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereImage($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product query()
@@ -1894,19 +1806,7 @@ namespace App\Models {
     /**
      * App\Models\Ranking
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property float $pv_accumulated
-     * @property int $rank
-     * @property int $user_id
-     * @property int $id
      * @property-read \App\Models\User $user
-     * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking whereRank($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking wherePvAccumulated($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Ranking>|Ranking query()
@@ -2205,25 +2105,7 @@ namespace App\Models {
     /**
      * App\Models\Transaction
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property string|null $description
-     * @property string $transaction_id
-     * @property string $status
-     * @property float $amount
-     * @property string $type
-     * @property int $user_id
-     * @property int $id
      * @property-read \App\Models\User $user
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereType($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereAmount($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereStatus($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereTransactionId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereDescription($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction query()
@@ -2525,23 +2407,6 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property string|null $remember_token
-     * @property string|null $address
-     * @property string|null $lga
-     * @property string|null $state
-     * @property string|null $package_id
-     * @property string|null $bank
-     * @property string|null $acct_type
-     * @property string|null $acct_number
-     * @property string|null $acct_name
-     * @property string|null $ref_id
-     * @property string|null $my_ref_id
-     * @property string|null $description
-     * @property string|null $photo
-     * @property bool|null $isActive
-     * @property string $status
-     * @property string $user_type
-     * @property string $phone
-     * @property string|null $username
      * @property string $password
      * @property \Illuminate\Support\Carbon|null $email_verified_at
      * @property string $email
@@ -2575,23 +2440,6 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereEmail($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereEmailVerifiedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePassword($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUsername($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePhone($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserType($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereStatus($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereIsactive($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePhoto($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereDescription($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereMyRefId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereRefId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereAcctName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereAcctNumber($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereAcctType($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereBank($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePackageId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereState($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereLga($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereAddress($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereRememberToken($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUpdatedAt($value)
@@ -2893,22 +2741,8 @@ namespace App\Models {
     /**
      * App\Models\UserProduct
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property string $status
-     * @property int $quantity
-     * @property int $product_id
-     * @property int $user_id
-     * @property int $id
      * @property-read \App\Models\User $user
      * @property-read \App\Models\Product $product
-     * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct whereProductId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct whereQuantity($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct whereStatus($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<UserProduct>|UserProduct query()
@@ -3207,21 +3041,9 @@ namespace App\Models {
     /**
      * App\Models\Wallet
      *
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property int $pv
-     * @property float $balance
-     * @property int $user_id
-     * @property int $id
      * @property-read \App\Models\User $user
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
      * @property-read int|null $transactions_count
-     * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereUserId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereBalance($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet wherePv($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet query()
