@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type');
             $table->decimal('amount', 10, 2);
 
-            $table->foreignId('source_id')->nullable()->constrained('users')->onDelete('set null');
+            // $table->foreignId('source_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }
