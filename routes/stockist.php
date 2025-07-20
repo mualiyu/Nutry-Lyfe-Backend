@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockistOrderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,4 +16,11 @@ Route::middleware('auth:sanctum')->prefix("products")->group(function () {
 
     Route::post('update-quantity/{product}', [ProductController::class, 'stockist_update_quantity']);
 
+});
+
+Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
+
+    Route::get('all', [StockistOrderController::class, 'get_orders']);
+
+    Route::get('{orderID}', [StockistOrderController::class, 'get_order']);
 });

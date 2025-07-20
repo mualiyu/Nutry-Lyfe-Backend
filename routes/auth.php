@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 # Register
 Route::post('register/{is}', [AuthController::class, 'register']); //is = affliate or vendor
 # Register
-Route::middleware('auth:sanctum')->post('admin/register', [AuthController::class, 'register_admin']);
+Route::post('admin/register', [AuthController::class, 'register_admin']);
+// middleware('auth:sanctum')->
 # Verify email
 Route::post('email/verify', [AuthController::class, 'verifyEmail']);
 # login

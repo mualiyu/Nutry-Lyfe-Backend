@@ -35,6 +35,7 @@ class User extends Authenticatable
         'description',
         'my_ref_id',
         'ref_id',
+        'position',
         'acct_name',
         'acct_number',
         'acct_type',

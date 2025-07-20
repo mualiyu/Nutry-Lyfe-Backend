@@ -34,7 +34,9 @@ class AuthController extends Controller
                     'email' => 'required|email|unique:users,email',
                     'phone' => 'required',
                     'ref_id' => 'nullable',
+                    'lga' => 'required',
                     'package_id' => 'required',
+                    'position' => 'nullable|in:left,right',
                 ]);
 
                 if ($validator->fails()) {
@@ -111,7 +113,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => true,
                     'data' => [
-                        'user' => User::where('id', '=', $user->id)->with('package')->get()[0],
+                        'user' => User::where('id', '=', $user->id)->with('package')->with('wallet')->get()[0],
                         'token' => $token,
                         // 'payment' => $payment,
                         // test
@@ -196,7 +198,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => true,
                     'data' => [
-                        'user' => User::where('id', '=', $user->id)->get()[0],
+                        'user' => User::where('id', '=', $user->id)->with('wallet')->get()[0],
                         'token' => $token,
                     ],
                     'message' => 'Registration successful, an email has been sent for verification.'
@@ -246,7 +248,7 @@ class AuthController extends Controller
         $request['status'] = "1";
         $request['photo'] = "/user/default.png";
 
-        $request['my_ref_id'] = "NL-" . rand(100000, 999999);
+        $request['my_ref_id'] = "NL-ADMIN" . rand(100, 999);
 
         $user = User::create($request->all());
 
@@ -287,7 +289,6 @@ class AuthController extends Controller
             ],
             'message' => 'Registration successfull, an email has been sent for verification.'
         ], 200);
-        //
 
     }
 
@@ -326,6 +327,7 @@ class AuthController extends Controller
 
         $user = User::find($u->id);
         $user->email_verified_at = Carbon::now()->getTimestamp();
+        $user->status = "1";
         $user->save();
 
         $token = $user->createToken('NL-' . $user->user_type, [$user->user_type])->plainTextToken;

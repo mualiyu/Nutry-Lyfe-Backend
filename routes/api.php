@@ -36,3 +36,6 @@ Route::prefix('networker')->group(base_path('routes/networker.php'));
 
 // include Stockist.php
 Route::prefix('stockist')->group(base_path('routes/stockist.php'));
+
+// include Payment.php
+Route::prefix('payment')->group(base_path('routes/payment.php'));
