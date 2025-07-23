@@ -15,7 +15,7 @@ Route::get('/', function () {
 
 Route::get('storage/{p}/{filename}', function ($p, $filename)
 {
-    $path = storage_path('app/public/'.$p.'/' . $filename);
+    $path = storage_path('app/private/public/'.$p.'/' . $filename);
 
     if (!File::exists($path)) {
         abort(404);
