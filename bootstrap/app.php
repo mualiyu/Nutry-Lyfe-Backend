@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         //
         $middleware->validateCsrfTokens(except: [
-            'http://api.nutry-lyfe.pmall.com.ng/*',
+            'https://nutry.pmall.com.ng/*',
             'http://nutrylyfe.netlify.app/*',
             // 'https://nutrylyfe.netlify.app/*',
             // 'https://api.nutry-lyfe.pmall.com.ng/*',
