@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://api.nutry-lyfe.pmall.com.ng', 'http://api.nutry-lyfe.pmall.com.ng',],
+    'allowed_origins' => ['https://nutry.pmall.com.ng/', 'http://nutry.pmall.com.ng/',],
 
     'allowed_origins_patterns' => [],
 
