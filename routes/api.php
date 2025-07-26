@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
+// Route::middleware(['cors'])->group(function () {
+
+// });
 
 Route::get('/error', function () {
     return response()->json([
