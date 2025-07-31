@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,12 @@ Route::middleware('auth:sanctum')->prefix("admin-products")->group(function () {
         Route::post('upload-file', [ProductController::class, 'upload']);
     });
 });
+
+
+
+Route::middleware('auth:sanctum')->prefix("users")->group(function () {
+    // get all system users
+    Route::get('all', [AdminController::class, 'getAllUsers']);
+});
+
+
