@@ -224,7 +224,8 @@ class NetworkerOrderController extends Controller
                 'message' => 'Unauthorized or not a Networker.'
             ], 403);
         }
-        $order = $user->orders()->with(['items.product', 'payment'])->where('id', $orderId)->first();
+
+        $order = $user->orders()->with(['items.product', 'payment'])->where('orderID', $orderId)->first();
         if (!$order) {
             return response()->json([
                 'status' => false,

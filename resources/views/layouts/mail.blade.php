@@ -111,7 +111,7 @@ body {
     <tr>
     <td class="header" width="100%" >
     <a href="{{ url('/') }}" style="display: inline-block;">
-    <img src="{{url('/')}}pmall-logo.jpeg" class="logo" alt="Pmall Logo">
+    <img src="{{url('/')}}nutry.jpeg" class="logo" alt="NutryLyfe Logo">
     </a>
     </td>
     </tr>

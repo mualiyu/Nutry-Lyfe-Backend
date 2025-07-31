@@ -51,6 +51,7 @@ class Payment extends Model
                 ],
             ]);
         if (!$response->ok() || !$response['status']) {
+            return [null, null, $response];
             return [null, null, 'Failed to initialize payment with Paystack.'];
         }
         $authUrl = $response['data']['authorization_url'];

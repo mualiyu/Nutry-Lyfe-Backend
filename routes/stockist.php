@@ -15,7 +15,6 @@ Route::middleware('auth:sanctum')->prefix("products")->group(function () {
     Route::get('get-my-single-product', [ProductController::class, 'stockist_show']);
 
     Route::post('update-quantity/{product}', [ProductController::class, 'stockist_update_quantity']);
-
 });
 
 Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
@@ -23,4 +22,10 @@ Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
     Route::get('all', [StockistOrderController::class, 'get_orders']);
 
     Route::get('{orderID}', [StockistOrderController::class, 'get_order']);
+
+
+    Route::post('verify-networker/{orderId}', [StockistOrderController::class, 'verifyOrder']);
+    Route::post('verify-otp/{orderId}', [StockistOrderController::class, 'verifyOrderOtp']);
+
+    Route::post('close/{orderId}', [StockistOrderController::class, 'closeOrder']);
 });
