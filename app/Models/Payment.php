@@ -33,7 +33,7 @@ class Payment extends Model
      */
     public static function generatePaystackLink($user, $order)
     {
-        $paystackSecret = env('PAYSTACK_SECRET_KEY');
+        $paystackSecret = env('PAYSTACK_SECRET_KEY', "sk_test_4aa1569d43b308f1fa14692e8544f8110e1b66b1");
         $paystackUrl = 'https://api.paystack.co/transaction/initialize';
         $reference = 'NL-P-' . uniqid(). uniqid();
         $callbackUrl = "https://nutrylyfe.netlify.app/call-back/payment-verification";
@@ -50,8 +50,9 @@ class Payment extends Model
                     'customer' => $user,
                 ],
             ]);
+            // dd($response->ok());
         if (!$response->ok() || !$response['status']) {
-            return [null, null, $response];
+            // return [null, null, $response];
             return [null, null, 'Failed to initialize payment with Paystack.'];
         }
         $authUrl = $response['data']['authorization_url'];

@@ -14,7 +14,7 @@ class NetworkerProductController extends Controller
         if ($request->user()->tokenCan($request->user()->user_type)) {
             return response()->json([
                 'status' => true,
-                'data' => User::where('user_type', 'Stockist')->orderBy("created_at", "desc")->paginate(15),
+                'data' => User::where('user_type', 'Stockist')->orderBy("created_at", "desc")->with('userProducts.product')->paginate(15),
             ]);
         } else {
             return response()->json([

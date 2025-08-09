@@ -44,7 +44,7 @@ class NetworkerOrderController extends Controller
         $orderItems = [];
 
         DB::beginTransaction();
-        try {
+        // try {
             foreach ($products as $item) {
                 $userProduct = UserProduct::where('id', $item['user_product_id'])
                     ->where('user_id', $stockistId)
@@ -60,7 +60,7 @@ class NetworkerOrderController extends Controller
                     // throw new \Exception('Insufficient stock for product ID: ' . $userProduct->product_id);
                     return response()->json([
                         'status' => false,
-                        'message' => 'Insufficient stock for product ID: ' . $userProduct->product_id
+                        'message' => 'Insufficient stock for product: ' . $userProduct->product->name,
                     ], 422);
                 }
                 $product = $userProduct->product;
@@ -123,13 +123,13 @@ class NetworkerOrderController extends Controller
                     ]
                 ]
             ], 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage()
-            ], 422);
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollBack();
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => $e->getMessage()
+        //     ], 422);
+        // }
     }
 
     /**
