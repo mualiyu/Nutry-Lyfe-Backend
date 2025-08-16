@@ -22,6 +22,7 @@ Route::get('/error', function () {
 // Account packages
 Route::get('account-packages/all', [AccountPackageController::class, 'get_all']);
 Route::middleware('auth:sanctum')->post('account-packages/create', [AccountPackageController::class, 'store']);
+Route::middleware('auth:sanctum')->post('account-packages/update/{package}', [AccountPackageController::class, 'update']);
 Route::middleware('auth:sanctum')->post('account-packages/delete/{id}', [AccountPackageController::class, 'destroy']);
 
 
