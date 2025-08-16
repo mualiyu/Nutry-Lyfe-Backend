@@ -13,7 +13,7 @@ class AccountPackageController extends Controller
     public function store(Request $request)
     {
         // check if user is auth and can Admin
-        if (!$request->user() || !$request->user()->can('Admin')) {
+        if (!$request->user()->can('Admin')) {
             return response()->json([
                 'status' => false,
                 'message' => 'Unauthorized action.'
@@ -68,7 +68,7 @@ class AccountPackageController extends Controller
     public function destroy($id, Request $request)
     {
 
-        if (!$request->user() || !$request->user()->tokenCan('Admin')) {
+        if (!$request->user()->tokenCan('Admin')) {
             return response()->json([
                 'status' => false,
                 'message' => 'Unauthorized action.'
