@@ -13,12 +13,19 @@ class AccountPackageController extends Controller
     public function store(Request $request)
     {
         // check if user is auth and can Admin
-        if ($request->user()->tokenCan('Admin')) {
+        if (!$request->user()->tokenCan('Admin')) {
             return response()->json([
                 'status' => false,
                 'message' => 'Unauthorized action.'
             ], 403);
         }
+
+        // if ($request->user()->user_type == "Admin") {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Unauthorized action.'
+        //     ], 403);
+        // }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
