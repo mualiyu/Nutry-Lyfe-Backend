@@ -70,13 +70,6 @@ class AccountPackageController extends Controller
             ], 403);
         }
 
-        // if ($request->user()->user_type == "Admin") {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Unauthorized action.'
-        //     ], 403);
-        // }
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'price' => 'required|numeric',
@@ -92,9 +85,9 @@ class AccountPackageController extends Controller
             ], 422);
         }
 
-        $package->update($request->all());
+        $p = $package->update($request->all());
 
-        if ($package) {
+        if ($p) {
             return response()->json([
                 'status' => true,
                 'data' => [
@@ -124,7 +117,6 @@ class AccountPackageController extends Controller
     // delete package
     public function destroy($id, Request $request)
     {
-
         if (!$request->user()->tokenCan('Admin')) {
             return response()->json([
                 'status' => false,

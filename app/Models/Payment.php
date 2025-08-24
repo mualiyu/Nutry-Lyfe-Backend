@@ -33,7 +33,7 @@ class Payment extends Model
      */
     public static function generatePaystackLink($user, $order)
     {
-        $paystackSecret = env('PAYSTACK_SECRET_KEY', "sk_test_4aa1569d43b308f1fa14692e8544f8110e1b66b1");
+        $paystackSecret = env('PAYSTACK_SECRET_KEY', 'sk_test_4aa1569d43b308f1fa14692e8544f8110e1b66b1');
         $paystackUrl = 'https://api.paystack.co/transaction/initialize';
         $reference = 'NL-P-' . uniqid(). uniqid();
         $callbackUrl = "https://nutrylyfe.netlify.app/call-back/payment-verification";
@@ -60,11 +60,40 @@ class Payment extends Model
     }
 
     /**
+     * Initialize Paystack payment for wallet funding and return [auth_url, reference]
+     */
+    public static function generateWalletFundingLink($user, $amount)
+    {
+        $paystackSecret = env('PAYSTACK_SECRET_KEY', 'sk_test_4aa1569d43b308f1fa14692e8544f8110e1b66b1');
+        $paystackUrl = 'https://api.paystack.co/transaction/initialize';
+        $reference = 'NL-W-' . uniqid() . uniqid();
+        $callbackUrl = "https://nutrylyfe.netlify.app/call-back/wallet-funding-verification";
+
+        $response = Http::withToken($paystackSecret)
+            ->post($paystackUrl, [
+                'amount' => $amount * 100, // Paystack expects amount in kobo
+                'email' => $user->email,
+                'reference' => $reference,
+                'callback_url' => $callbackUrl,
+                'metadata' => [
+                    'user_id' => $user->id,
+                    'purpose' => 'wallet_funding',
+                ],
+            ]);
+
+        if (!$response->ok() || !$response['status']) {
+            return [null, null, 'Failed to initialize wallet funding with Paystack.'];
+        }
+        $authUrl = $response['data']['authorization_url'];
+        return [$authUrl, $reference, null];
+    }
+
+    /**
      * Verify Paystack payment by reference
      */
     public static function verifyPaystack($reference)
     {
-        $paystackSecret = env('PAYSTACK_SECRET_KEY');
+        $paystackSecret = env('PAYSTACK_SECRET_KEY', 'sk_test_4aa1569d43b308f1fa14692e8544f8110e1b66b1');
         $verifyUrl = 'https://api.paystack.co/transaction/verify/' . $reference;
         $response = Http::withToken($paystackSecret)->get($verifyUrl);
         if (!$response->ok() || !$response['status']) {

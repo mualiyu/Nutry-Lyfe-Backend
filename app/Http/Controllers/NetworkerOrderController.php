@@ -26,6 +26,7 @@ class NetworkerOrderController extends Controller
         // Validate request
         $validator = Validator::make($request->all(), [
             'stockist_user_id' => 'required|exists:users,id',
+            'payment_type' => 'required|in:wallet,paystack',
             'products' => 'required|array|min:1',
             'products.*.user_product_id' => 'required|exists:user_products,id',
             'products.*.quantity' => 'required|integer|min:1',
@@ -44,20 +45,20 @@ class NetworkerOrderController extends Controller
         $orderItems = [];
 
         DB::beginTransaction();
-        // try {
+        try {
             foreach ($products as $item) {
                 $userProduct = UserProduct::where('id', $item['user_product_id'])
                     ->where('user_id', $stockistId)
                     ->first();
                 if (!$userProduct) {
-                    // throw new \Exception('UserProduct not found for stockist.');
+                    DB::rollBack();
                     return response()->json([
                         'status' => false,
                         'message' => 'UserProduct not found for stockist.'
                     ], 404);
                 }
                 if ($userProduct->quantity < $item['quantity']) {
-                    // throw new \Exception('Insufficient stock for product ID: ' . $userProduct->product_id);
+                    DB::rollBack();
                     return response()->json([
                         'status' => false,
                         'message' => 'Insufficient stock for product: ' . $userProduct->product->name,
@@ -77,59 +78,140 @@ class NetworkerOrderController extends Controller
                 $userProduct->save();
             }
 
-            // Create Order
-            $order = Order::create([
-                'user_id' => $user->id,
-                'total' => $total,
-                'orderID' => 'NL-O-' . uniqid(). uniqid(),
-                'status' => 'pending',
-            ]);
+            // Check payment type
+            if ($request->payment_type === 'wallet') {
+                $wallet = $user->wallet()->first();
+                if (!$wallet || $wallet->balance < $total) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Insufficient wallet balance.'
+                    ], 422);
+                }
 
-            // Create OrderItems
-            foreach ($orderItems as $orderItem) {
-                $order->items()->create($orderItem);
-            }
+                // Deduct wallet balance
+                $wallet->balance -= $total;
+                $wallet->save();
 
-            // Create Payment and generate Paystack link
-            list($authUrl, $reference, $err) = Payment::generatePaystackLink($user, $order);
+                // Create Order
+                $order = Order::create([
+                    'user_id' => $user->id,
+                    'total' => $total,
+                    'orderID' => 'NL-O-' . mt_rand(10000000, 99999999),
+                    'status' => 'completed',
+                ]);
 
-            if ($err) {
+                // Create OrderItems
+                foreach ($orderItems as $orderItem) {
+                    $order->items()->create($orderItem);
+                }
+
+                // Create Payment
+                $payment = Payment::create([
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'amount' => $total,
+                    'status' => 'paid',
+                    'payment_method' => 'wallet',
+                ]);
+
+                // Log transaction
+                $user->transactions()->create([
+                    'user_id' => $user->id,
+                    'type' => 'order_payment',
+                    'amount' => $total,
+                    'status' => 'completed',
+                    'transaction_id' => $payment->id,
+                    'description' => 'Order payment via wallet'
+                ]);
+
+                DB::commit();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Order placed and paid successfully via wallet.',
+                    'data' => [
+                        'order' => $order->load('items'),
+                        'payment_type' => $request->payment_type,
+                        'payment' => [
+                            'payment_method' => 'wallet',
+                        ]
+                    ]
+                ], 201);
+
+            } else if ($request->payment_type === 'paystack') {
+                // Create Order
+                $order = Order::create([
+                    'user_id' => $user->id,
+                    'total' => $total,
+                    'orderID' => 'NL-O-' . mt_rand(10000000, 99999999),
+                    'status' => 'pending',
+                ]);
+
+                // Create OrderItems
+                foreach ($orderItems as $orderItem) {
+                    $order->items()->create($orderItem);
+                }
+
+                // Create Payment and generate Paystack link
+                list($authUrl, $reference, $err) = Payment::generatePaystackLink($user, $order);
+
+                if ($err) {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => $err
+                    ], 500);
+                }
+
+                $payment = Payment::create([
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'amount' => $total,
+                    'status' => 'pending',
+                    'paystack_reference' => $reference,
+                    'paystack_url' => $authUrl,
+                    'payment_method' => 'paystack',
+                ]);
+
+                // Log transaction
+                $user->transactions()->create([
+                    'user_id' => $user->id,
+                    'type' => 'order_payment',
+                    'amount' => $total,
+                    'status' => 'pending',
+                    'transaction_id' => $payment->id,
+                    'description' => 'Order payment via Paystack'
+                ]);
+
+                DB::commit();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Order placed successfully. Proceed to payment.',
+                    'data' => [
+                        'order' => $order->load('items'),
+                        'payment_type' => $request->payment_type,
+                        'payment' => [
+                            'paystack_url' => $authUrl,
+                            'reference' => $reference,
+                        ]
+                    ]
+                ], 201);
+            } else {
                 DB::rollBack();
                 return response()->json([
                     'status' => false,
-                    'message' => $err
-                ], 500);
+                    'message' => 'Invalid payment type.'
+                ], 422);
             }
-
-            $payment = Payment::create([
-                'order_id' => $order->id,
-                'user_id' => $user->id,
-                'amount' => $total,
-                'status' => 'pending',
-                'paystack_reference' => $reference,
-                'paystack_url' => $authUrl,
-                'payment_method' => 'paystack',
-            ]);
-
-            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
-                'status' => true,
-                'message' => 'Order placed successfully. Proceed to payment.',
-                'data' => [
-                    'order' => $order->load('items'),
-                    'payment' => [
-                        'paystack_url' => $authUrl,
-                        'reference' => $reference,
-                    ]
-                ]
-            ], 201);
-        // } catch (\Exception $e) {
-        //     DB::rollBack();
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => $e->getMessage()
-        //     ], 422);
-        // }
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 422);
+        }
     }
 
     /**
@@ -174,6 +256,16 @@ class NetworkerOrderController extends Controller
             $order = $payment->order;
             $order->status = 'completed';
             $order->save();
+
+            $payment->user->transactions()->create([
+                'user_id' => $payment->user_id,
+                'type' => 'order_payment',
+                'amount' => $payment->amount,
+                'status' => 'completed',
+                'transaction_id' => $payment->id,
+                'description' => 'Order payment via Paystack'
+            ]);
+
             return response()->json([
                 'status' => true,
                 'message' => 'Payment verified and order completed.',

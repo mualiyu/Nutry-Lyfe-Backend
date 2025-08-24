@@ -17,7 +17,7 @@ Username/Email: {{$email}}
 Password: {{$pass}}
 
 
-Thank you for registering with Pmall.<br>
+Thank you for registering with Nutrylyfe.<br>
 {{ config('app.name') }}
 
 @endsection

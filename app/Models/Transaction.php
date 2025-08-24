@@ -11,7 +11,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'user_id',
-        'type',  //bonus, withdrawal, product purchase, etc.
+        'type',  //order_payment, wallet_funding, pv_conversion, ~~bonus, withdrawal, product purchase, registration etc.
         'amount',
         'status',
         'transaction_id',

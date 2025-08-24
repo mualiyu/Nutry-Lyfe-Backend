@@ -22,3 +22,6 @@ Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('verify-code', [AuthController::class, 'verifyPin']);
 # reset
 Route::post('reset-password', [AuthController::class, 'resetPassword']);
+
+// change password
+Route::middleware('auth:sanctum')->post('change-password', [AuthController::class, 'changePassword']);

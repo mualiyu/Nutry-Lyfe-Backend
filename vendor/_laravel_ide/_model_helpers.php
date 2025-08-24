@@ -1586,7 +1586,7 @@ namespace App\Models {
      * @property string $status
      * @property float $amount
      * @property int $user_id
-     * @property int $order_id
+     * @property int|null $order_id
      * @property int $id
      * @property-read \App\Models\Order $order
      * @property-read \App\Models\User $user

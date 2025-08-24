@@ -43,3 +43,6 @@ Route::prefix('stockist')->group(base_path('routes/stockist.php'));
 
 // include Payment.php
 Route::prefix('payment')->group(base_path('routes/payment.php'));
+
+// include Wallet.php
+Route::prefix('wallet')->group(base_path('routes/wallet.php'));

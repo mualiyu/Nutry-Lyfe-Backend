@@ -103,7 +103,17 @@ class AuthController extends Controller
                 Wallet::create([
                     'user_id' => $user->id,
                     'balance' => 0,
-                    'pv' => 0,
+                    'pv' => $package->pv,
+                ]);
+
+                // Create transaction record
+                $request->user()->transactions()->create([
+                    'user_id' => $user->id,
+                    'type' => 'registration',
+                    'amount' => $package->price,
+                    'status' => 'pending',
+                    'transaction_id' => uniqid('reg_'),
+                    'description' => 'Registration package subscription'
                 ]);
 
                 // Process referral compensation
@@ -192,7 +202,7 @@ class AuthController extends Controller
                 Wallet::create([
                     'user_id' => $user->id,
                     'balance' => 0,
-                    'pv' => 0,
+                    'pv' => $package->pv,
                 ]);
 
                 return response()->json([
@@ -278,6 +288,12 @@ class AuthController extends Controller
         Mail::to($request->email)->send(new VerifyEmail($pin, $request->password, $request->email, $request->username));
 
         $token = $user->createToken('NL-Admin', ['Admin'])->plainTextToken;
+
+        Wallet::create([
+            'user_id' => $user->id,
+            'balance' => 0,
+            'pv' => 0,
+        ]);
 
         return response()->json([
             'status' => true,
@@ -549,6 +565,46 @@ class AuthController extends Controller
             ],
             'message' => 'Your password has been reset.'
         ], 200);
+    }
+
+    // chage password
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => ['required', 'string', 'min:8'],
+            'new_password' => ['required', 'string', 'min:8'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => "User not found"
+            ], 404);
+        }
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Password changed successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Old password is incorrect'
+            ], 422);
+        }
     }
 
     // ends of class AuthController
